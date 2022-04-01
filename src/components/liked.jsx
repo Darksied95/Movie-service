@@ -1,11 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const Liked = (props) => {
-    let classes = "fa fa-heart";
-    if (props.like) classes += "-o"
-    return ( 
-            <i className= {classes} aria-hidden="true" onClick={props.onClick}/>
-     );
-}
- 
+const Liked = ({ like, onClick }) => {
+  let classes = "fa fa-heart";
+  if (like) classes += "-o";
+  return <i className={classes} aria-hidden="true" onClick={onClick} />;
+};
+
 export default Liked;

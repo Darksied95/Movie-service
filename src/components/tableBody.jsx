@@ -15,10 +15,11 @@ class TableBody extends Component {
     return item._id + (column.path || column.key);
   };
   render() {
-    const { items, columns } = this.props;
+    const { data, columns } = this.props;
+
     return (
       <tbody>
-        {items.map((item) => (
+        {data.map((item) => (
           <tr key={item._id}>
             {columns.map((column) => (
               <td key={this.createKey(item, column)}>

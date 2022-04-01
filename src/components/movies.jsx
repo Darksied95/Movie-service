@@ -20,6 +20,7 @@ class Movies extends Component {
     const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
     this.setState({ movies: getMovies(), genres });
   }
+
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => {
       return movie._id !== m._id;
@@ -45,8 +46,7 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
-    const { length: count } = this.state.movies;
+  getPagedData = () => {
     const {
       movies: allMovies,
       pageCount,
@@ -54,11 +54,6 @@ class Movies extends Component {
       selectedGenre,
       sortColumn,
     } = this.state;
-    if (count === 0) {
-      return (
-        <h1 style={{ color: "red" }}>"There's no movie in the Database!!!"</h1>
-      );
-    }
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((movie) => {
@@ -67,6 +62,20 @@ class Movies extends Component {
         : allMovies;
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
     const movies = paginate(sorted, currentPage, pageCount);
+
+    return { totalCount: filtered.length, data: movies };
+  };
+
+  render() {
+    const { length: count } = this.state.movies;
+    const { selectedGenre, sortColumn } = this.state;
+
+    if (count === 0) {
+      return (
+        <h1 style={{ color: "red" }}>"There's no movie in the Database!!!"</h1>
+      );
+    }
+    const { totalCount, data: movies } = this.getPagedData();
     return (
       <div className="row">
         <div className="col-3">
@@ -78,8 +87,8 @@ class Movies extends Component {
         </div>
         <div className="col">
           <h3>
-            Showing <span style={{ color: "red" }}>{filtered.length}</span>{" "}
-            movies in the database.
+            Showing <span style={{ color: "red" }}>{totalCount}</span> movies in
+            the database.
           </h3>
           <MoviesTable
             movies={movies}
@@ -89,7 +98,7 @@ class Movies extends Component {
             sortColumn={sortColumn}
           />
           <Pagination
-            MovieCount={filtered.length}
+            MovieCount={totalCount}
             PageCount={this.state.pageCount}
             OnPageChange={this.handlePageChange}
             CurrentPage={this.state.currentPage}

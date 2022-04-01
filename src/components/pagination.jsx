@@ -1,8 +1,7 @@
 import React from "react";
 import _ from "lodash";
 
-const Pagination = (props) => {
-  const { MovieCount, PageCount } = props;
+const Pagination = ({ MovieCount, PageCount, OnPageChange, CurrentPage }) => {
   const pagCount = Math.ceil(MovieCount / PageCount);
   const range = _.range(1, pagCount + 1);
   if (pagCount === 1) return null;
@@ -12,11 +11,9 @@ const Pagination = (props) => {
         {range.map((page) => (
           <li
             key={page}
-            className={
-              props.CurrentPage === page ? "page-item active" : "page-item"
-            }
+            className={CurrentPage === page ? "page-item active" : "page-item"}
           >
-            <a className="page-link" onClick={() => props.OnPageChange(page)}>
+            <a className="page-link" onClick={() => OnPageChange(page)}>
               {page}
             </a>
           </li>
