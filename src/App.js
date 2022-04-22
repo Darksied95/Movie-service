@@ -12,6 +12,7 @@ import Customer from "./components/Customer";
 import NotFound from "./components/notFound";
 import Rental from "./components/rental";
 import LoginForm from "./components/loginForm";
+import Register from "./components/register";
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
               <Route path="/customer" component={Customer} />
               <Route path="/notfound" component={NotFound} />
               <Route path="/rental" component={Rental} />
+              <Route path="/register" component={Register} />
               <Route path={"/"} exact component={Movies} />
               <Redirect to="/notfound" />
             </Switch>
