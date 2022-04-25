@@ -15,10 +15,10 @@ class Register extends Form {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        {this.handleInput("email", "Email", "email")}
-        {this.handleInput("password", "Password", "password")}
-        {this.handleInput("name", "Name")}
-        {this.handleButton("Register")}
+        {this.renderInput("email", "Email", "email")}
+        {this.renderInput("password", "Password", "password")}
+        {this.renderInput("name", "Name")}
+        {this.renderButton("Register")}
       </form>
     );
   }

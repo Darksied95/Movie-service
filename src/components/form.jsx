@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Input from "./input";
+import Select from "./Select";
 import Joi from "joi-browser";
 
 class Form extends Component {
@@ -44,15 +45,29 @@ class Form extends Component {
   afterSubmit = () => {
     console.log("Submitted");
     //Call server
+    this.doSubmit();
   };
-  handleButton(label) {
+  renderButton(label) {
     return (
       <button className="btn btn-primary" disabled={this.validate()}>
         {label}
       </button>
     );
   }
-  handleInput(name, label, type = "text") {
+  renderSelect(name, label, options) {
+    const { data, errors } = this.state;
+    return (
+      <Select
+        name={name}
+        value={data[name]}
+        label={label}
+        options={options}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
+  renderInput(name, label, type = "text") {
     const { data, errors } = this.state;
     return (
       <Input
