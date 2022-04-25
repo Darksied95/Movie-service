@@ -7,6 +7,7 @@ import Pagination from "./pagination";
 import MoviesTable from "./MoviesTable";
 import { paginate } from "./pagoperation";
 import _ from "lodash";
+import Search from "./Search";
 
 class Movies extends Component {
   state = {
@@ -46,6 +47,12 @@ class Movies extends Component {
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
+  handleMovieSearch = (value) => {
+    let movies = getMovies().filter((movie) =>
+      new RegExp(value, "gi").test(movie.title)
+    );
+    this.setState({ movies, currentPage: 1 });
+  };
 
   getPagedData = () => {
     const {
@@ -73,7 +80,11 @@ class Movies extends Component {
 
     if (count === 0) {
       return (
-        <h1 style={{ color: "red" }}>"There's no movie in the Database!!!"</h1>
+        <div>
+          <h1 style={{ color: "red" }}>
+            "There's no movie in the Database!!!"
+          </h1>
+        </div>
       );
     }
     const { totalCount, data: movies } = this.getPagedData();
@@ -94,6 +105,10 @@ class Movies extends Component {
             Showing <span style={{ color: "red" }}>{totalCount}</span> movies in
             the database.
           </h3>
+          <Search
+            movies={this.state.movies}
+            onSearch={this.handleMovieSearch}
+          />
           <MoviesTable
             movies={movies}
             onLike={this.handleLike}
